@@ -23,6 +23,26 @@ export async function activate(this: any, context: vscode.ExtensionContext) {
   /**
    * Register commands & views
    */
+  try {
+    vscode.debug.onDidChangeActiveDebugSession(async (e: any) => {
+      console.log("debug console state changed", e);
+
+      if (e._configuration.name === "Launch Web App") {
+        console.log("User launched web app!");
+      }
+
+      console.log("active debug console:", vscode.debug.activeDebugConsole);
+      const session = vscode.debug.activeDebugSession;
+
+      // TODO: run expressions in the debug console
+      // const response = await session?.customRequest()
+    })
+  } catch(e) {
+    console.log("Error: onDidChangeActiveDebugSession", e);
+  }
+
+  
+
   const appViewDataProvider = new ApplicationsViewDataProvider();
   const apiViewDataProvider = new ApisViewDataProvider();
   const linkViewDataProvider = new LinksViewDataProvider();

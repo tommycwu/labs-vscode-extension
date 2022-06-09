@@ -16,6 +16,16 @@ async function getExtension(): Promise<vscode.Extension<any>> {
 export async function startTour(uri: vscode.Uri) {
   const ext = await getExtension();
   const api = ext.exports;
+
+  // Use the API object as needed
+  api.onDidStartTour(([tour, stepNumber]: any) => {
+    console.log("Tour started: ", tour.title, "Step: ", stepNumber);
+  });
+
+  api.onDidEndTour((tour: any) => {
+    console.log("Tour ended: ", tour);
+  });
+
   try {
     api.startTourByUri(uri);
   } catch (e: any) {
